@@ -1,0 +1,30 @@
+{% extends 'higherguidanceforum/base.html' %}
+{% load staticfiles %} <!-- New line -->
+
+{% block title_block %}
+	{{ question.name }}
+{% endblock %}
+
+{% block body_block %}
+
+		{% if question %}
+			<h1>{{question.name}}</h1>
+
+            {% if answers %}
+				<ul>
+					{% for answer in answers %}
+						answer
+					{% endfor %}
+				</ul>
+			{% else %}
+				<strong>No answers to this question yet.</strong>
+			{% endif %}
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'submit' subject.slug %}">Submit Answer</a>
+            {% endif %}
+
+		{% else %}
+			This question does not exist!
+		{% endif %}
+{% endblock %}

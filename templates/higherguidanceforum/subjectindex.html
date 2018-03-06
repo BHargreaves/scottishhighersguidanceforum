@@ -6,36 +6,11 @@
 {% endblock %}
 
 {% block body_block %}
-	
-	<h1>Welcome</h1>
-	<div>
-		{% if user.is_authenticated %}
-            {{ user.username }}, here are your subjects
-            
-            <div>
-                usubjects = {{ user.subject }}
-                
-                {% if usubjects %}
-                    {% for usubject in usubjects %}
-                        <li>
-                        <a href="{% url 'show_subject' usubject.slug %}">{{ usubject.name }}</a>
-                        <!-- New line -->
-                    </li>
-                    {% endfor %}
-                {% else %}
-                    <strong>You have not chosen your subjects</strong>
-                {% endif %}
-                
-            </div>
-            
-        {% else %}
-            Please browse the subject index
-        {% endif %}
-		<strong>{{ boldmessage }}</strong><br />
-	</div>
 
-     <h2>Most Common Subjects</h2>
-     <div>
+
+	<h1>Subjects</h1>
+
+	<div>
         {% if subjects %}
         <ul?>
             {% for subject in subjects %}
@@ -48,24 +23,7 @@
         {% else %}
             <strong>There are no subjects present.</strong>
         {% endif %}
-     </div>
+    </div>
 
-     <br />
-        <!-- New line -->
-     <h2>Most Viewed Resources</h2>
-     <div>
-        {% if links%}
-            <ul?>
-                {% for link in links %}
-                    <li>
-                        <a href="{{ link.url}}"</a>{{ link.title}}
-                    </li>
-                {% endfor %}
-            </ul?>
-            {% else %}
-                <strong>There are no resource links present.</strong>
-            {% endif %}
-        </div>
-		<br/>
 
 {% endblock %}
