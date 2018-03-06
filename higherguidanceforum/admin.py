@@ -1,5 +1,5 @@
 from django.contrib import admin
-from higherguidanceforum.models import Subject, ResourceLink, UserProfile
+from higherguidanceforum.models import Subject, Link, UserProfile
 # Register your models here.
 
 class ResourceAdmin(admin.ModelAdmin):
@@ -10,5 +10,5 @@ class SubjectAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Subject, SubjectAdmin)
-admin.site.register(ResourceLink, ResourceAdmin)
+admin.site.register(Link, ResourceAdmin)
 admin.site.register(UserProfile)

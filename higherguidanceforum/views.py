@@ -37,6 +37,27 @@ def submit_answer(request):
     return HttpResponse("This will be where you can answer a question")
 
 def register(request):
+    registered = False
+    if request.method == 'POST'
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+
+            user.set_password(user.password)
+            user.save
+
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
+            profile.save()
+            registered = True
+
+        else:
+            printer(user_form.errors, profile_Form.errors)
+
+    else
     return HttpResponse("This will be where you can register")
 
 def user_login(request):
