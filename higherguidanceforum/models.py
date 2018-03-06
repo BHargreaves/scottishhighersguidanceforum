@@ -21,12 +21,15 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
-class ResourceLink(models.Model):
+class Link(models.Model):
 
     category = models.ForeignKey(Subject)
     title = models.CharField(max_length=128)
     url = models.URLField()
     views = models.IntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = 'Links'
 
     def __str__(self):
         return self.title
