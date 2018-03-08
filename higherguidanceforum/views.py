@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from higherguidanceforum.Models import Subject, Link, UserForm, UserProfileForm
+
 # Create your views here.
 
 def home(request):
     context_dict = {}
-    return HttpResponse("This will be the home page")
-    #return render(request, 'higherguidanceforum/home.html', context=context_dict)
+    return render(request, 'higherguidanceforum/home.html', context=context_dict)
 
 def about(request):
     context_dict = {'boldmessage': "Here is the about page"}
@@ -24,8 +25,8 @@ def show_subject(request, subject_name_slug):
     context_dict = {}
 
     try:
-        subject = Subject.objects.get(slug=category_name_slug)
-        links = Links.objects.filter(category=category)
+        subject = Subject.objects.get(slug=subject_name_slug)
+        links = Link.objects.filter(category=subject)
         context_dict['links'] = links
         context_dict['subject'] = subject
 
