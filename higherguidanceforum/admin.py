@@ -3,7 +3,7 @@ from higherguidanceforum.models import Subject, Link, UserProfile
 # Register your models here.
 
 class ResourceAdmin(admin.ModelAdmin):
-    list_display = ('title','subject','url')
+    list_display = ()#'title','subject','url')
 
 class SubjectAdmin(admin.ModelAdmin):
     prepopulate_fields = {'slug':('name','views','likes')}

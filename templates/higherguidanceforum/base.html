@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-{ % load static %}
+{% load static %}
+{% load higherguidanceforum_template_tags %}
 
 <html>
 
     <head lang="en">
-        <link rel="stylesheet" href="bootstrap.css">
+        <link rel="stylesheet" href="static/bootstrap.css">
         <title>
             Scottish Highers Guidance Forum
             {% block title_block %}
@@ -17,11 +18,11 @@
 
         <h1>Scottish Highers</h1>
         <h2>Guidance Forum</h2>
-        <hr/>
+        <hr />
 
 		<div>
 			{% block sidebar_block %}
-            {% get_category_list category %}
+                {% get_Subject_list Subject %}
 			{% endblock %}
 		</div>
 

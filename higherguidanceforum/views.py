@@ -5,20 +5,20 @@ from django.http import HttpResponse
 
 def home(request):
     context_dict = {}
-    return HttpResponse("This will be the home page")
-    #return render(request, 'higherguidanceforum/home.html', context=context_dict)
+    #return HttpResponse("This will be the home page")   #comment out/ delete to try fix the template errors
+    return render(request, 'higherguidanceforum/home.html', context=context_dict)
 
 def about(request):
     context_dict = {'boldmessage': "Here is the about page"}
     visitor_cookie_handler(request)
     context_dict['visits'] = request.session['visits']
-    return render(request, 'scottishhigherguidanceforum/about.html', context=context_dict)
+    return render(request, 'higherguidanceforum/about.html', context=context_dict)
 
 def contact_us(request):
-    return HttpResponse("This will be the contact us page")
+    return contactus.html
 
 def subject_index(request):
-    return HttpResponse("This will be the index page")
+    return subjectindex.html
 
 def show_subject(request, subject_name_slug):
     context_dict = {}
@@ -36,22 +36,22 @@ def show_subject(request, subject_name_slug):
     return HttpResponse("This will be a specific subject page")
 
 def show_resources(request):
-    return HttpResponse("This will be a subject resource page")
+    return resources.html
 
 def submit_page(request):
-    return HttpResponse("This will be where you can submit resources")
+    return submitlink.html
 
 def show_forum(request):
-    return HttpResponse("This will be the subject forum page")
+    return forum.html
 
 def submit_question(request):
-    return HttpResponse("This will be where you can submit a question")
+    return submitquestion.html
 
 def show_question(request):
-    return HttpResponse("This will be where you can look at a question")
+    return question.html
 
 def submit_answer(request):
-    return HttpResponse("This will be where you can answer a question")
+    return submitasnwer.html
 
 def register(request):
     registered = False
@@ -107,21 +107,20 @@ def user_login(request):
 
 
 def my_account(request):
-    return HttpResponse("This is the user account")
+    return myaccount.html
 
 def my_submissions(request):
-    return HttpResponse("This is the user submissions")
+    return submissions.html
 
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
 
-
 def user_list(request):
-    return HttpResponse("This is the list of users")
+    return users.html
 
 def user(request):
-    return HttpResponse("This is the person's user page")
+    return user.html
 
 def submission_history(request):
-    return HttpResponse("This is the person's submission history")
+    return submissions.html
