@@ -1,38 +1,39 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from higherguidanceforum.models import Subject, Link, UserProfile
+
 # Create your views here.
 
 def home(request):
     context_dict = {}
-    #return HttpResponse("This will be the home page")   #comment out/ delete to try fix the template errors
     return render(request, 'higherguidanceforum/home.html', context=context_dict)
 
 def about(request):
     context_dict = {'boldmessage': "Here is the about page"}
-    visitor_cookie_handler(request)
-    context_dict['visits'] = request.session['visits']
     return render(request, 'higherguidanceforum/about.html', context=context_dict)
 
 def contact_us(request):
     return contactus.html
 
 def subject_index(request):
-    return subjectindex.html
+    context_dict = {'boldmessage': "Here is the about page"}
+    return render(request, 'higherguidanceforum/subjectindex.html', context=context_dict)
+
 
 def show_subject(request, subject_name_slug):
     context_dict = {}
 
     try:
-        subject = Subject.objects.get(slug=category_name_slug)
-        links = Links.objects.filter(category=category)
+        subject = Subject.objects.get(slug=subject_name_slug)
+        links = Link.objects.filter(category=subject)
         context_dict['links'] = links
         context_dict['subject'] = subject
 
     except Subject.DoesNotExist:
         context_dict['subject'] = None
         context_dict['links'] = None
-    return render(request, 'scottishhigherguidanceforum/subject.html', context_dict)
+    return render(request, 'higherguidanceforum/subject.html', context_dict)
     return HttpResponse("This will be a specific subject page")
 
 def show_resources(request):
@@ -51,7 +52,7 @@ def show_question(request):
     return question.html
 
 def submit_answer(request):
-    return submitasnwer.html
+    return submitanswer.html
 
 def register(request):
     registered = False
@@ -79,7 +80,7 @@ def register(request):
         profile_form = UserProfileForm()
 
     return render(request,
-        'scottishhigherguidanceforum/register.html',
+        'higherguidanceforum/register.html',
         {'user_form': user_form,
         'profile_Form': profile_form,
         'registered': register})
@@ -103,7 +104,7 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
 
     else:
-        return render(request, 'scottishhigherguidanceforum/login.html', {})
+        return render(request, 'higherguidanceforum/login.html', {})
 
 
 def my_account(request):
@@ -115,6 +116,7 @@ def my_submissions(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect(reverse('index'))
+
 
 def user_list(request):
     return users.html
