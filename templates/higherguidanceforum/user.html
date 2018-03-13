@@ -1,0 +1,26 @@
+{% extends 'higherguidanceforum/base.html' %}
+{% load staticfiles %} <!-- New line -->
+
+{% block title_block %}
+	User {{ user.name }}
+{% endblock %}
+
+{% block body_block %}
+
+
+	<h1>{{ user.name }}</h1>
+
+	<div>
+        {{ user.picture }}
+	</div>
+
+	<div>
+	    {{ user.subject }}
+	</div>
+
+	<div>
+        <li><a href={{ submissions.name}}>Submission History</a></li>
+    </div>
+
+
+{% endblock %}
