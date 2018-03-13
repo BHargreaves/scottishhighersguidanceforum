@@ -1,0 +1,18 @@
+{% extends 'higherguidanceforum/base.html' %}
+{% load staticfiles %} <!-- New line -->
+
+{% block title_block %}
+    {{ subject.name }}
+{% endblock %}
+
+{% block body_block %}
+		{% if subject %}
+			<h1>{{subject.name}}</h1>
+			
+            <li><a href="{% url 'resources' %}">Resources</a></li>
+			<li><a href="{% url 'forum' %}">Subject Forum</a></li>
+
+		{% else %}
+			The specified subject does not exist!
+		{% endif %}
+{% endblock %}
