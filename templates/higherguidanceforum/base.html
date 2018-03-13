@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+{% load higherguidanceforum_template_tags %}
+
+<html>
+
+    <head lang="en">
+        <link rel="stylesheet" href="static/bootstrap.css">
+        <title>
+            Scottish Highers Guidance Forum
+            {% block title_block %}
+                - A resource for students
+            {% endblock %}
+        </title>
+    </head>
+
+	<body>
+
+        <h1>Scottish Highers</h1>
+        <h2>Guidance Forum</h2>
+        <hr />
+
+		<div>
+			{% block sidebar_block %}
+                {% get_Subject_list Subject %}
+			{% endblock %}
+		</div>
+
+		<div>
+			{% block body_block %}
+			This is body_block's default content.
+			{% endblock %}
+		</div>
+		<hr />
+		<div>
+			<ul>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'myyaccount' %}">My Account</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Sign Up</a></li>
+            {% endif %}
+
+			<li><a href="{% url 'about' %}">About</a></li>
+			<li><a href="{% url 'subjectindex' %}">Subject Index</a></li>
+
+			</ul>
+		</div>
+
+	</body>
+</html>
