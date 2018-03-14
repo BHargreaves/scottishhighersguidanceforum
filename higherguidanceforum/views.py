@@ -109,7 +109,6 @@ def user_login(request):
     else:
         return render(request, 'higherguidanceforum/login.html', {})
 
-
 def my_account(request):
     return myaccount.html
 
