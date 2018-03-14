@@ -5,34 +5,52 @@
 <html>
 
     <head lang="en">
-        <link rel="stylesheet" href="static/bootstrap.css">
+       <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            }
+
+        li {
+            float: left;
+            }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            }
+
+        li a:hover:not(.active) {
+            background-color: #111;
+            }
+
+        .active {
+            background-color: #4CAF50;
+            }
+        </style>
+
+        <link rel="stylesheet" href="/static/bootstrap.css">
         <title>
             Scottish Highers Guidance Forum
             {% block title_block %}
                 - A resource for students
             {% endblock %}
         </title>
+
+
     </head>
 
 	<body>
 
-        <h1>Scottish Highers</h1>
-        <h2>Guidance Forum</h2>
-        <hr />
+        <img src="/media/ScottishHighersGuidanceForumLogo.png" alt="ScottishHighersGuidanceForumLogo" width="450" height="120">
 
-		<div>
-			{% block sidebar_block %}
-                {% get_Subject_list Subject %}
-			{% endblock %}
-		</div>
-
-		<div>
-			{% block body_block %}
-			This is body_block's default content.
-			{% endblock %}
-		</div>
-		<hr />
-		<div>
+        <div>
 			<ul>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'myyaccount' %}">My Account</a></li>
@@ -44,9 +62,24 @@
 
 			<li><a href="{% url 'about' %}">About</a></li>
 			<li><a href="{% url 'subjectindex' %}">Subject Index</a></li>
+			<li style="float:right"><a  href="{% url 'home' %}">Home</a></li>
 
 			</ul>
 		</div>
+
+
+        <hr />
+
+
+		<div>
+
+		<div>
+			{% block body_block %}
+			This is body_block's default content.
+			{% endblock %}
+		</div>
+		<hr />
+
 
 	</body>
 </html>
