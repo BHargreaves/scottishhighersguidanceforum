@@ -23,7 +23,7 @@ def contact_us(request):
 
 def subject_index(request):
     request.session.set_test_cookie()
-    subject_list = Subject.objects.order_by('-likes')[:5]
+    subject_list = Subject.objects.order_by('-name')[:5]
     link_list = Link.objects.order_by('-views')[:5]
     context_dict = {'Subjects'}
 
