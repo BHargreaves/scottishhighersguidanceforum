@@ -18,7 +18,7 @@ def contact_us(request):
     return render(request, 'contactus.html')
 
 def subject_index(request):
-    context_dict = {'boldmessage': "Here is the subject index page"}
+    context_dict = {'Subjects'}
     return render(request, 'higherguidanceforum/subjectindex.html', context=context_dict)
 
 
