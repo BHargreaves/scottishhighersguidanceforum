@@ -41,7 +41,7 @@ class LinkForm(forms.ModelForm):
 
 
 
-class UserForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
@@ -49,15 +49,7 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'email', 'password')
 
 
-class UserProfileForm(forms.ModelForm):
-
-    class Meta:
-        model = UserProfile
-        fields = ('website', 'picture')
-
-
 class StudentSignUpForm(UserProfileForm):
-
     subjects = forms.ModelMultipleChoiceField(
         queryset=Subject.objects.all(),
         widget=forms.CheckboxSelectMultiple,

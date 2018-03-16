@@ -29,8 +29,8 @@ urlpatterns = [
 
     #REGISTRATION
     url(r'^register/$', views.register, name='register'),
-    url(r'^register/student/$', views.registerstudent, name='register_student'),
-    url(r'^register/teacher/$', views.registerteacher, name='register_teacher'),
+    url(r'^register/student/$', views.registerstudent, name='registerstudent'),
+    url(r'^register/teacher/$', views.registerteacher, name='registerteacher'),
 
     #LOGIN
     url(r'^login/$', views.user_login, name='login'),

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from higherguidanceforum.models import Subject, Link, UserProfile
-from higherguidanceforum.forms import SubjectForm, LinkForm, UserForm, UserProfileForm
+from higherguidanceforum.forms import SubjectForm, LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm
 
 # Create your views here.
 
@@ -34,35 +34,35 @@ def show_subject(request, subject_name_slug):
     except Subject.DoesNotExist:
         context_dict['subject'] = None
         context_dict['links'] = None
-    return render(request, 'subject.html', context_dict)
+    return render(request, 'higherguidanceforum/subject.html', context_dict)
 
 def show_resources(request):
-    return render(request, 'resources.html')
+    return render(request, 'higherguidanceforum/resources.html')
 
 def submit_page(request):
-    return render(request, 'submitlink.html')
+    return render(request, 'higherguidanceforum/submitlink.html')
 
 def show_forum(request):
-    return render(request, 'forum.html')
+    return render(request, 'higherguidanceforum/forum.html')
 
 def submit_question(request):
-    return render(request, 'submitquestion.html')
+    return render(request, 'higherguidanceforum/submitquestion.html')
 
 def show_question(request):
-    return render(request, 'question.html')
+    return render(request, 'higherguidanceforum/question.html')
 
 def submit_answer(request):
-    return render(request, 'submitanswer.html')
+    return render(request, 'higherguidanceforum/submitanswer.html')
 
 def register(request):
-    return render(request, 'register.html')
+    return render(request, 'higherguidanceforum/register.html')
 
-def register_student(request):
+def registerstudent(request):
 
     registered = False
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
+        user_form = UserProfileForm(data=request.POST)
+        profile_form = StudentSignUpForm(data=request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -82,21 +82,21 @@ def register_student(request):
             print(user_form.errors, profile_form.errors)
 
     else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
+        user_form = UserProfileForm()
+        profile_form = StudentSignUpForm()
 
     return render(request,
-        'registerstudent.html',
+        'higherguidanceforum/registerstudent.html',
         {'user_form': user_form,
         'profile_form': profile_form,
         'registered': registered})
 
-def register_teacher(request):
+def registerteacher(request):
 
     registered = False
     if request.method == 'POST':
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
+        user_form = UserProfileForm(data=request.POST)
+        profile_form = TeacherSignUpForm(data=request.POST)
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
@@ -116,11 +116,11 @@ def register_teacher(request):
             print(user_form.errors, profile_form.errors)
 
     else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
+        user_form = UserProfileForm()
+        profile_form = TeacherSignUpForm()
 
     return render(request,
-        'registerteacher.html',
+        'higherguidanceforum/registerteacher.html',
         {'user_form': user_form,
         'profile_form': profile_form,
         'registered': registered})
