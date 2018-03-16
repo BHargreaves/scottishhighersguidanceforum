@@ -21,6 +21,7 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
+
 class Link(models.Model):
 
     category = models.ForeignKey(Subject)
@@ -34,9 +35,45 @@ class Link(models.Model):
     def __str__(self):
         return self.title
 
+class SubjectForum(models.Model):
+
+    name = models.CharField(max_length=128, unique=True)
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(SubjectForum, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Forums'
+
+    def __str__(self):
+        return self.name
+
+class Question(models.Model):
+
+    category = models.ForeignKey(SubjectForum)
+    sluf = models.SlugField(unique=True)
+    title = models.CharField(max_length=128)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Question, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Questions'
+
+    def __str__(self):
+        return self.title
+
+
 class UserProfile(models.Model):
     #Links UserProfile to a user model instance
     user = models.OneToOneField(User)
+
+    is_student = models.BooleanField(default=False)
+    is_teacher = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
 
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
@@ -44,11 +81,32 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-class Teachers(models.Model):
-    name = models.CharField(max_length=128, unique=True)
-    category = models.ForeignKey(UserProfile)
+
+#How to create the different types of users is referenced from the following site:
+#https://simpleisbetterthancomplex.com/tutorial/2018/01/18/how-to-implement-multiple-user-types-with-django.html
+
+class Student(models.Model):
+
+    student = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
+
+    subjects = models.ManyToManyField(Subject, related_name='studying_students')
 
     def __str__(self):
-        return self.user.teachername
+        return self.user.username
 
 
+class Teacher(models.Model):
+
+    teacher = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
+
+    subjects = models.ManyToManyField(Subject, related_name='teachers')
+
+    def __str__(self):
+        return self.user.username
+
+class Admin(models.Model):
+
+    admin = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return self.user.username

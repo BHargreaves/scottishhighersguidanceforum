@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from higherguidanceforum.models import Link, Subject, UserProfile
+from higherguidanceforum.models import Link, Subject, UserProfile, Student, Teacher
 
 class SubjectForm(forms.ModelForm):
 
@@ -54,3 +54,35 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('website', 'picture')
+
+
+class StudentSignUpForm(UserProfileForm):
+
+    subjects = forms.ModelMultipleChoiceField(
+        queryset=Subject.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
+    )
+
+    class Meta(UserProfileForm.Meta):
+        model = User
+
+    def save(self):
+        user = super().save(commit=False)
+        user.is_student = True
+        user.save()
+        student = Student.objects.create(user=user)
+        student.subjects.add(*self.cleaned_data.get('subjects'))
+        return user
+
+class TeacherSignUpForm(UserProfileForm):
+
+    class Meta(UserProfileForm.Meta):
+        model = User
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_teacher = True
+        if commit:
+            user.save()
+        return user

@@ -15,7 +15,7 @@ def about(request):
     return render(request, 'higherguidanceforum/about.html', context=context_dict)
 
 def contact_us(request):
-    return contactus.html
+    return render(request, 'contactus.html')
 
 def subject_index(request):
     context_dict = {'boldmessage': "Here is the subject index page"}
@@ -34,28 +34,31 @@ def show_subject(request, subject_name_slug):
     except Subject.DoesNotExist:
         context_dict['subject'] = None
         context_dict['links'] = None
-    return render(request, 'higherguidanceforum/subject.html', context_dict)
-    return HttpResponse("This will be a specific subject page")
+    return render(request, 'subject.html', context_dict)
 
 def show_resources(request):
-    return resources.html
+    return render(request, 'resources.html')
 
 def submit_page(request):
-    return submitlink.html
+    return render(request, 'submitlink.html')
 
 def show_forum(request):
-    return forum.html
+    return render(request, 'forum.html')
 
 def submit_question(request):
-    return submitquestion.html
+    return render(request, 'submitquestion.html')
 
 def show_question(request):
-    return question.html
+    return render(request, 'question.html')
 
 def submit_answer(request):
-    return submitanswer.html
+    return render(request, 'submitanswer.html')
 
 def register(request):
+    return render(request, 'register.html')
+
+def register_student(request):
+
     registered = False
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
@@ -83,11 +86,44 @@ def register(request):
         profile_form = UserProfileForm()
 
     return render(request,
-        'higherguidanceforum/register.html',
+        'registerstudent.html',
         {'user_form': user_form,
         'profile_form': profile_form,
         'registered': registered})
 
+def register_teacher(request):
+
+    registered = False
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        profile_form = UserProfileForm(data=request.POST)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+
+            user.set_password(user.password)
+            user.save
+            profile = profile_form.save(commit=False)
+            profile.user = user
+
+            if 'picture' in request.FILES:
+                profile_form.picture = request.FILES['picture']
+
+            profile.save()
+            registered = True
+
+        else:
+            print(user_form.errors, profile_form.errors)
+
+    else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
+
+    return render(request,
+        'registerteacher.html',
+        {'user_form': user_form,
+        'profile_form': profile_form,
+        'registered': registered})
 
 
 def user_login(request):

@@ -9,11 +9,36 @@
 
 	<h1>Register for the Scottish Highers Guidance Forum</h1>
 
-    <style>
+        <style>
     body {font-family: Arial, Helvetica, sans-serif;}
     * {box-sizing: border-box}
 
-        hr {
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 10px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+        input[type=text], input[type=email] {
+        width: 100%;
+        padding: 10px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+        input[type=text], input[type=url] {
+        width: 100%;
+        padding: 10px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    hr {
         border: 1px solid #f1f1f1;
         margin-bottom: 25px;
     }
@@ -45,9 +70,7 @@
 		{{ user_form.as_p }}
 		{{ profile_form.as_p }}
 
-        <a href="{% url 'registerstudent' %}"> class="button">I'm a Student</a>
-        <a href="{% url 'registerstudent' %}"> class="button">I'm a Student</a>
-	    </form>
+      <button type="submit" class="signupbtn">Sign Up</button>
+	</form>
 	{% endif %}
-
 {% endblock %}
