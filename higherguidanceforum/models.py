@@ -43,3 +43,12 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Teachers(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    category = models.ForeignKey(UserProfile)
+
+    def __str__(self):
+        return self.user.teachername
+
+

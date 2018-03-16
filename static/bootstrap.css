@@ -28,9 +28,9 @@ h2 {
 
 hr {
     display: block;
-    height: 10px;
+    height: 1px;
     border: 0;
-    border-top: 10px solid #ccc;
+    border-top: 1px solid #ccc;
     margin: 0;
     padding: 0;
 }

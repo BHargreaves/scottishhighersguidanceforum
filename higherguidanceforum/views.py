@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from higherguidanceforum.models import Subject, Link, UserProfile
+from higherguidanceforum.forms import SubjectForm, LinkForm, UserForm, UserProfileForm
 
 # Create your views here.
 
@@ -17,7 +18,7 @@ def contact_us(request):
     return contactus.html
 
 def subject_index(request):
-    context_dict = {'boldmessage': "Here is the about page"}
+    context_dict = {'boldmessage': "Here is the subject index page"}
     return render(request, 'higherguidanceforum/subjectindex.html', context=context_dict)
 
 
@@ -65,15 +66,17 @@ def register(request):
 
             user.set_password(user.password)
             user.save
+            profile = profile_form.save(commit=False)
+            profile.user = user
 
             if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
+                profile_form.picture = request.FILES['picture']
 
             profile.save()
             registered = True
 
         else:
-            printer(user_form.errors, profile_Form.errors)
+            print(user_form.errors, profile_form.errors)
 
     else:
         user_form = UserForm()
@@ -82,8 +85,8 @@ def register(request):
     return render(request,
         'higherguidanceforum/register.html',
         {'user_form': user_form,
-        'profile_Form': profile_form,
-        'registered': register})
+        'profile_form': profile_form,
+        'registered': registered})
 
 
 
@@ -96,7 +99,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('index'))
+                return HttpResponseRedirect(reverse('home'))
             else:
                 return HttpResponse("Your Scottish Higher Guidance Forum is disabled.")
         else:
@@ -105,7 +108,6 @@ def user_login(request):
 
     else:
         return render(request, 'higherguidanceforum/login.html', {})
-
 
 def my_account(request):
     return myaccount.html
