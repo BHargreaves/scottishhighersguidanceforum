@@ -18,9 +18,10 @@ from django.contrib import admin
 from django.conf.urls import include
 from higherguidanceforum import views
 
-
 from django.conf import settings
 from django.conf.urls.static import static
+
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     url(r'^$', views.home, name='scottish highers guidance forum'),
@@ -28,4 +29,5 @@ urlpatterns = [
     # this maps any URLS starting with scottishhighersguidanceforum/
     # to be handled by the application
     url(r'^admin/', admin.site.urls),
+    url(r'^favicon.ico$', RedirectView.as_view(url='/static/favicon.ico')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

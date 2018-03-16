@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from higherguidanceforum.models import Subject, Link, UserProfile
+from higherguidanceforum.models import Subject, Link, UserProfile, SubjectForum, Question, Student, Teacher
 from higherguidanceforum.forms import SubjectForm, LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm
 
 # Create your views here.
