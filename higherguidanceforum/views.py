@@ -23,18 +23,12 @@ def subject_index(request):
 
 
 def show_subject(request, subject_name_slug):
-    context_dict = {}
 
-    try:
-        subject = Subject.objects.get(slug=subject_name_slug)
-        links = Link.objects.filter(category=subject)
-        context_dict['links'] = links
-        context_dict['subject'] = subject
+    subject_list = Subject.objects.order_by('alphabetical')
 
-    except Subject.DoesNotExist:
-        context_dict['subject'] = None
-        context_dict['links'] = None
-    return render(request, 'higherguidanceforum/subject.html', context_dict)
+    context_dict = {'subjects': subject_list}
+
+    return render(request, 'higherguidanceforum/subjectindex.html', context=context_dict)
 
 def show_resources(request):
     return render(request, 'higherguidanceforum/resources.html')
