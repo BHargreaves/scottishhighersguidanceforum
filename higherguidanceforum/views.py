@@ -22,14 +22,15 @@ def contact_us(request):
     return render(request, 'contactus.html')
 
 def subject_index(request):
+    request.session.set_test_cookie()
     subject_list = Subject.objects.order_by('-likes')[:5]
     link_list = Link.objects.order_by('-views')[:5]
-
     context_dict = {'Subjects'}
 
-    response = render(request, 'higherguidanceforum/index.html', context_dict)
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
 
-    visitor_cookie_handler(request, response)
+    response = render(request, 'higherguidanceforum/index.html', context_dict)
 
     return response
 
@@ -171,6 +172,12 @@ def user(request):
 def submission_history(request):
     return submissions.html
 
+def get_server_side_cookie(request, cookie, default_val=None):
+    val = request.session.get(cookie)
+    if not val:
+        val = default_val
+    return val
+
 def visitor_cookie_handler(request, response):
     visits = int(request.COOKIES.get('visits', '1'))
     last_visit_cookie = request.COOKIES.get('last_visit', str(datetime.now()))
@@ -179,8 +186,7 @@ def visitor_cookie_handler(request, response):
 
     if (datetime.now() - last_visit_time).days > 0:
         visits = visits + 1
-        response.set_cookie('last_visit', str(datetime.now()))
+        request.session['last_visit'] = str(datetime.now())
     else:
-        response.set_cookie('last_visit', last_visit_cookie)
-
-    response.set_cookie('visits', visits)
+        request.session['last_visit'] = last_visit_cookie
+    request.session['visits'] = visits
