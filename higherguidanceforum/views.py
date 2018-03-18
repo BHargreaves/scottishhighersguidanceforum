@@ -1,6 +1,8 @@
 from datetime import datetime
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 
 from higherguidanceforum.models import Subject, Link, UserProfile, SubjectForum, Question, Student, Teacher
 from higherguidanceforum.forms import SubjectForm, LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm
@@ -133,24 +135,26 @@ def registerteacher(request):
         'registered': registered})
 
 
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
-
-        if user:
+        if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse('home'))
+                return HttpResponseRedirect('/scottishhighersguidanceforum/')
             else:
                 return HttpResponse("Your Scottish Higher Guidance Forum is disabled.")
         else:
             print("Invalid login details: {0}, {1}".format(username, password) )
             return HttpResponse("Invalid login details supplied.")
-
     else:
         return render(request, 'higherguidanceforum/login.html', {})
+
+
+
 
 def my_account(request):
     return myaccount.html
@@ -160,7 +164,7 @@ def my_submissions(request):
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect('/scottishhighersguidanceforum/')
 
 
 def user_list(request):

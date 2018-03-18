@@ -18,7 +18,7 @@
         margin-bottom: 25px;
     }
 
-    button {
+    .button {
         background-color: #333333;
         color: white;
         padding: 10px 20px;
@@ -45,9 +45,10 @@
 		{{ user_form.as_p }}
 		{{ profile_form.as_p }}
 
-        <a href="{% url 'registerstudent' %}"> class="button">I'm a Student</a>
-        <a href="{% url 'registerteacher' %}"> class="button">I'm a Teacher</a>
+
 	    </form>
+	   <a href="{% url 'registerstudent' %}" class="button" >I'm a Student</a>
+       <a href="{% url 'registerteacher' %}" class="button" >I'm a Teacher</a>
 	{% endif %}
 
 {% endblock %}
