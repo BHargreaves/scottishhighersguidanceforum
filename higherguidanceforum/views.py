@@ -9,6 +9,12 @@ from higherguidanceforum.forms import SubjectForm, LinkForm, UserProfileForm, St
 
 def home(request):
     context_dict = {}
+    subject_list = Subject.objects.order_by('views')[:5]
+    context_dict = {'subjects': subject_list,}
+
+    #resource_list = Link.object.order_by('views')[:5]
+    #context_dict = {'links': resource_list,}
+
     return render(request, 'higherguidanceforum/home.html', context=context_dict)
 
 def about(request):
@@ -39,14 +45,29 @@ def subject_index(request):
 
 def show_subject(request, subject_name_slug):
 
-    subject_list = Subject.objects.order_by('alphabetical')
+    context_dict = {}
 
-    context_dict = {'subjects': subject_list}
+    subject = Subject.objects.get(slug=subject_name_slug)
+    context_dict['subject'] = subject
 
-    return render(request, 'higherguidanceforum/subjectindex.html', context=context_dict)
+    return render(request, 'higherguidanceforum/subject.html', context=context_dict)
 
-def show_resources(request):
-    return render(request, 'higherguidanceforum/resources.html')
+
+def show_resources(request, subject_name):
+
+    context_dict ={}
+
+    try:
+        subject = Subject.objects.get(slug=subject_name)
+        links = Link.objects.filter(category=subject)
+        context_dict['links'] = links
+        context_dict['subject'] = subject
+
+    except Subject.DoesNotExist:
+        context_dict['subject'] = None
+        context_dict['links'] = None
+
+    return render(request, 'higherguidanceforum/resources.html', context=context_dict)
 
 def submit_page(request):
     return render(request, 'higherguidanceforum/submitlink.html')
@@ -65,6 +86,7 @@ def submit_answer(request):
 
 def register(request):
     return render(request, 'higherguidanceforum/register.html')
+
 
 def registerstudent(request):
 
@@ -98,6 +120,7 @@ def registerstudent(request):
         'higherguidanceforum/registerstudent.html',
         {'profile_form': profile_form,
         'registered': registered})
+
 
 def registerteacher(request):
 
@@ -135,6 +158,7 @@ def registerteacher(request):
 
 
 def user_login(request):
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')

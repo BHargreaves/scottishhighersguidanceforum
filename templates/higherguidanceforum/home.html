@@ -8,6 +8,13 @@
 {% block body_block %}
 
 	<h1>Welcome</h1>
+
+	<style>
+	    div{
+        font-family:verdana;
+        }
+	</style>
+
 	<div>
 		{% if user.is_authenticated %}
             {{ user.username }}, here are your subjects
@@ -34,7 +41,7 @@
 		<strong>{{ boldmessage }}</strong><br />
 	</div>
 
-     <h2>Most Common Subjects</h2>
+     <h2>Most Common Subjects<br /></h2>
      <div>
         {% if subjects %}
         <ul?>
@@ -44,17 +51,21 @@
                     <!-- New line -->
                 </li>
             {% endfor %}
+            <br />
         </ul?>
         {% else %}
             <strong>There are no subjects present.</strong>
+            <br />
         {% endif %}
+        <br />
      </div>
 
      <br />
-        <!-- New line -->
+
      <h2>Most Viewed Resources</h2>
 
-     <p>visits: {{ visits }}</p>
+
+     <h3>visits: {{ visits }}</h3>
 
      <div>
         {% if links%}
@@ -66,7 +77,7 @@
                 {% endfor %}
             </ul?>
             {% else %}
-                <strong>There are no resource links present.</strong>
+                There are no resource links present.
             {% endif %}
         </div>
 		<br/>

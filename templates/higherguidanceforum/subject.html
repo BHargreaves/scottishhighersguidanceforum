@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {% extends 'higherguidanceforum/base.html' %}
 {% load staticfiles %} <!-- New line -->
 
@@ -7,32 +6,15 @@
 {% endblock %}
 
 {% block body_block %}
+
 		{% if subject %}
 			<h1>{{subject.name}}</h1>
-			
-            <li><a href="{% url 'resources' %}">Resources</a></li>
-			<li><a href="{% url 'forum' %}">Subject Forum</a></li>
+
+            <li><a href="{% url 'show_resources' %}">Resources</a></li>
+			<li><a href="{% url 'show_forum' %}">Subject Forum</a></li>
 
 		{% else %}
 			The specified subject does not exist!
 		{% endif %}
-=======
-{% extends 'higherguidanceforum/base.html' %}
-{% load staticfiles %} <!-- New line -->
 
-{% block title_block %}
-    {{ subject.name }}
-{% endblock %}
-
-{% block body_block %}
-		{% if subject %}
-			<h1>{{subject.name}}</h1>
-			
-            <li><a href="{% url 'resources' %}">Resources</a></li>
-			<li><a href="{% url 'forum' %}">Subject Forum</a></li>
-
-		{% else %}
-			The specified subject does not exist!
-		{% endif %}
->>>>>>> 759b656c99c0a3f1cb9d2ab40d7c9337f69c0cae
 {% endblock %}

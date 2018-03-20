@@ -6,6 +6,8 @@ django.setup()
 
 from higherguidanceforum.models import Subject, Link
 
+
+
 def populate():
 
     #Each subject needs to have a link to its subject page on the SQA
@@ -113,6 +115,8 @@ def add_sub(name):
     s = Subject.objects.get_or_create(name=name)[0]
     s.save()
     return s
+
+
 
 
 if __name__ == '__main__':

@@ -10,6 +10,18 @@
 
 	<h1>Subjects</h1>
 
+	<style>
+	    li {
+        vertical-align: middle;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        color: black;
+        }
+
+    </style>
+
 	<div>
         {% if subjects %}
         <ul?>
@@ -19,7 +31,7 @@
                     <!-- New line -->
                 </li>
             {% endfor %}
-        </ul?>
+        </ul>
         {% else %}
             <strong>There are no subjects present.</strong>
         {% endif %}

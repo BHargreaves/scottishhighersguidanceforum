@@ -11,31 +11,35 @@
        <style>
 
         ul {
+            border: 2px solid black;
+            font-family:verdana;
             list-style-type: none;
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #333;
+            background-color: powderblue;
             }
 
         li {
+            font-family:verdana;
             float: left;
             }
 
         li a {
+            font-family:verdana;
             display: block;
-            color: white;
+            color: black;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
             }
 
         li a:hover:not(.active) {
-            background-color: #111;
+            background-color: #53D1E7;
             }
 
         .active {
-            background-color: #4CAF50;
+            background-color: blue;
             }
         </style>
 
@@ -57,7 +61,7 @@
         <div>
 			<ul>
             {% if user.is_authenticated %}
-                <li><a href="">My Account</a></li>
+                <li><a href="{% url 'my_account' %}">My Account</a></a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
