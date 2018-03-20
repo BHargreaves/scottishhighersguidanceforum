@@ -132,3 +132,4 @@ MEDIA_ROOT = u'/home/scottishhighersguidanceforum/ScottishHighersGuidanceForum/m
 MEDIA_URL = '/media/'
 STATIC_ROOT = u'/home/scottishhighersguidanceforum/ScottishHighersGuidanceForum/static'
 STATIC_URL = '/static/'
+LOGIN_URL = '/rango/login/'

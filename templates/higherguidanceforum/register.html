@@ -18,6 +18,10 @@
         margin-bottom: 25px;
     }
 
+    p.big {
+    line-height: 3.0;
+    }
+
     .button {
         background-color: #333333;
         color: white;
@@ -37,6 +41,10 @@
 		<a href="{% url 'home' %}">Return to the homepage.</a><br />
 	{% else %}
 		Scottish Higher Forum Says: <strong>register here!</strong>
+
+		<p class="big">
+        </p>
+
 		<form id="user_form" method="post" action="{% url 'register' %}"
 		      enctype="multipart/form-data">
 

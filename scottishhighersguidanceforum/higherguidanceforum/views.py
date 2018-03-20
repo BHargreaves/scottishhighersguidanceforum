@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth import logout
 
 from higherguidanceforum.models import Subject, Link, UserProfile
 from higherguidanceforum.forms import SubjectForm, LinkForm, UserForm, UserProfileForm
@@ -9,8 +10,14 @@ from higherguidanceforum.forms import SubjectForm, LinkForm, UserForm, UserProfi
 # Create your views here.
 
 def home(request):
-    context_dict = {}
-    return render(request, 'higherguidanceforum/home.html', context=context_dict)
+    subject_list = Subject.objects.order_by('-likes')[:5]
+    links_list = Links.objects.order_by('views')[:5]
+    context_Dict = {'subject': subject_list, 'links': links_list}
+
+    response = render(request, 'higherguidanceforum/home.html', context_dict)
+    visitor_cookie_handler(request, response)
+
+    return response
 
 def about(request):
     context_dict = {'boldmessage': "Here is the about page"}
@@ -68,6 +75,8 @@ def register(request):
 
             user.set_password(user.password)
             user.save
+            profile = profile = profile_form(commit=False)
+            profile.user = user
 
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
@@ -76,7 +85,7 @@ def register(request):
             registered = True
 
         else:
-            printer(user_form.errors, profile_Form.errors)
+            print(user_form.errors, profile_form.errors)
 
     else:
         user_form = UserForm()
@@ -86,7 +95,7 @@ def register(request):
         'scottishhigherguidanceforum/register.html',
         {'user_form': user_form,
         'profile_Form': profile_form,
-        'registered': register})
+        'registered': registered})
 
 
 
@@ -118,7 +127,7 @@ def my_submissions(request):
 
 def user_logout(request):
     logout(request)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponse(reverse('index'))
 
 
 def user_list(request):

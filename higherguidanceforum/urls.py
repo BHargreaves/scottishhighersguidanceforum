@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^login/myaccount/', views.my_account, name='my_account'),
     url(r'^login/myaccount/mysubmissions/', views.my_submissions, name='my_submissions'),
     url(r'^logout/$', views.user_logout, name='logout'),
+    url(r'^restricted/', views.restricted, name='restricted'),
 
     #USERS
     url(r'^users/$', views.user_list, name='user_list'),

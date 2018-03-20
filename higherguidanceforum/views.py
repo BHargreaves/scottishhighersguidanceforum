@@ -1,10 +1,8 @@
 from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-
-from higherguidanceforum.models import Subject, Link, UserProfile, SubjectForum, Question, Student, Teacher
+from higherguidanceforum.models import Subject, Link, UserProfile, Question, Student, Teacher
 from higherguidanceforum.forms import SubjectForm, LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm
 
 # Create your views here.
@@ -14,9 +12,9 @@ def home(request):
     return render(request, 'higherguidanceforum/home.html', context=context_dict)
 
 def about(request):
-    if request.session.test_cookie_worked():
-        print("TEST COOKIE WORKED!")
-    request.session.delete_test_cookie()
+    #if request.session.test_cookie_worked():
+        #print("TEST COOKIE WORKED!")
+    #request.session.delete_test_cookie()
     context_dict = {'boldmessage': "Here is the about page"}
     return render(request, 'higherguidanceforum/about.html', context=context_dict)
 
@@ -24,15 +22,17 @@ def contact_us(request):
     return render(request, 'contactus.html')
 
 def subject_index(request):
+
     request.session.set_test_cookie()
-    subject_list = Subject.objects.order_by('-name')[:5]
-    link_list = Link.objects.order_by('-views')[:5]
-    context_dict = {'Subjects'}
+    subject_list = Subject.objects.order_by('name')
+    context_dict = {'subjects': subject_list,}
 
-    visitor_cookie_handler(request)
-    context_dict['visits'] = request.session['visits']
 
-    response = render(request, 'higherguidanceforum/index.html', context_dict)
+    #context_dict['visits'] = request.session['visits']
+
+    response = render(request, 'higherguidanceforum/subjectindex.html', context_dict)
+
+    visitor_cookie_handler(request, response)
 
     return response
 
@@ -96,8 +96,7 @@ def registerstudent(request):
 
     return render(request,
         'higherguidanceforum/registerstudent.html',
-        {'user_form': user_form,
-        'profile_form': profile_form,
+        {'profile_form': profile_form,
         'registered': registered})
 
 def registerteacher(request):
@@ -130,8 +129,7 @@ def registerteacher(request):
 
     return render(request,
         'higherguidanceforum/registerteacher.html',
-        {'user_form': user_form,
-        'profile_form': profile_form,
+        {'profile_form': profile_form,
         'registered': registered})
 
 
@@ -157,10 +155,11 @@ def user_login(request):
 
 
 def my_account(request):
-    return myaccount.html
+     return render(request, 'higherguidanceforum/myaccount.html')
 
 def my_submissions(request):
-    return submissions.html
+    return render(request, 'higherguidanceforum/submissions.html')
+
 
 def user_logout(request):
     logout(request)
@@ -168,13 +167,13 @@ def user_logout(request):
 
 
 def user_list(request):
-    return users.html
+     return render(request, 'higherguidanceforum/users.html')
 
 def user(request):
-    return user.html
+     return render(request, 'higherguidanceforum/user.html')
 
 def submission_history(request):
-    return submissions.html
+     return render(request, 'higherguidanceforum/submissionhistory.html')
 
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
@@ -190,7 +189,18 @@ def visitor_cookie_handler(request, response):
 
     if (datetime.now() - last_visit_time).days > 0:
         visits = visits + 1
-        request.session['last_visit'] = str(datetime.now())
+        response.set_cookie['last_visit'] = str(datetime.now())
     else:
-        request.session['last_visit'] = last_visit_cookie
-    request.session['visits'] = visits
+        visits = 1
+        response.set_cookie('last_visit', last_visit_cookie)
+    response.set_cookie('visits', visits)
+
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this text!")
+
+
+
+
+
+
+

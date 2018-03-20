@@ -54,6 +54,15 @@
         opacity: 0.9;
     }
 
+    ul {
+        vertical-align: middle;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: powderblue;
+        }
+
     </style>
 
 
@@ -62,8 +71,8 @@
 		<a href="{% url 'home' %}">Return to the homepage.</a><br />
 	{% else %}
 		Scottish Higher Forum Says: <strong>register here!</strong>
-		<form id="user_form" method="post" action="{% url 'register' %}"
-		      enctype="multipart/form-data">
+		<form id="user_form" method="post" action="{% url 'registerstudent' %}"
+		     enctype="multipart/form-data">
 
 		{% csrf_token %}
 

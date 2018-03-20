@@ -99,7 +99,7 @@ class Teacher(models.Model):
 
     teacher = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
 
-    subjects = models.ManyToManyField(Subject, related_name='teachers')
+    #subjects = models.ManyToManyField(Subject, related_name='teachers')
 
     def __str__(self):
         return self.user.username
