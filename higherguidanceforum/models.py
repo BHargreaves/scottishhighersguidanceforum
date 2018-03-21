@@ -35,24 +35,10 @@ class Link(models.Model):
     def __str__(self):
         return self.title
 
-class SubjectForum(models.Model):
-
-    name = models.CharField(max_length=128, unique=True)
-    slug = models.SlugField(unique=True)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(SubjectForum, self).save(*args, **kwargs)
-
-    class Meta:
-        verbose_name_plural = 'Forums'
-
-    def __str__(self):
-        return self.name
 
 class Question(models.Model):
 
-    category = models.ForeignKey(SubjectForum)
+    category = models.ForeignKey(Subject)
     sluf = models.SlugField(unique=True)
     title = models.CharField(max_length=128)
 
@@ -65,6 +51,23 @@ class Question(models.Model):
 
     def __str__(self):
         return self.title
+
+class Answer(models.Model):
+
+    category = models.ForeignKey(Question)
+    sluf = models.SlugField(unique=True)
+    title = models.CharField(max_length=128)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Answer, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = 'Answers'
+
+    def __str__(self):
+        return self.title
+
 
 
 class UserProfile(models.Model):

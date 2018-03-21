@@ -62,9 +62,10 @@ class StudentSignUpForm(UserProfileForm):
     def save(self):
         user = super().save(commit=False)
         user.is_student = True
-        user.save()
+        #user.save()
         student = Student.objects.create(user=user)
         student.subjects.add(*self.cleaned_data.get('subjects'))
+        student.save()
         return user
 
 class TeacherSignUpForm(UserProfileForm):

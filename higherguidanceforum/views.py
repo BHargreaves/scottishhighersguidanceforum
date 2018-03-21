@@ -2,7 +2,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-from higherguidanceforum.models import Subject, Link, UserProfile, Question, Student, Teacher
+from higherguidanceforum.models import Subject, Link, UserProfile, Question, Answer, Student, Teacher
 from higherguidanceforum.forms import SubjectForm, LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm
 
 # Create your views here.
@@ -72,14 +72,43 @@ def show_resources(request, subject_name):
 def submit_page(request):
     return render(request, 'higherguidanceforum/submitlink.html')
 
-def show_forum(request):
-    return render(request, 'higherguidanceforum/forum.html')
+
+def show_forum(request, subject_name):
+
+    context_dict ={}
+
+    try:
+        subject = Subject.objects.get(slug=subject_name)
+        questions = Question.objects.filter(category=subject)
+        context_dict['questions'] = questions
+        context_dict['subject'] = subject
+
+    except Subject.DoesNotExist:
+        context_dict['subject'] = None
+        context_dict['questions'] = None
+
+    return render(request, 'higherguidanceforum/forum.html', context=context_dict)
+
 
 def submit_question(request):
     return render(request, 'higherguidanceforum/submitquestion.html')
 
-def show_question(request):
-    return render(request, 'higherguidanceforum/question.html')
+
+def show_question(request, question_name):
+
+    context_dict ={}
+
+    try:
+        question = Question.objects.get(slug=question_name)
+        answers = Answer.objects.filter(category=question)
+        context_dict['answers'] = answers
+        context_dict['question'] = question
+
+    except Subject.DoesNotExist:
+        context_dict['question'] = None
+        context_dict['answers'] = None
+
+    return render(request, 'higherguidanceforum/question.html', context=context_dict)
 
 def submit_answer(request):
     return render(request, 'higherguidanceforum/submitanswer.html')
@@ -97,12 +126,10 @@ def registerstudent(request):
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
-
             user.set_password(user.password)
-            user.save
-            profile = profile_form.save(commit=False)
+            #user.save()
+            profile = profile_form.save()
             profile.user = user
-
             if 'picture' in request.FILES:
                 profile_form.picture = request.FILES['picture']
 
@@ -131,10 +158,9 @@ def registerteacher(request):
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
-
             user.set_password(user.password)
-            user.save
-            profile = profile_form.save(commit=False)
+            #user.save()
+            profile = profile_form.save()
             profile.user = user
 
             if 'picture' in request.FILES:
