@@ -10,6 +10,17 @@
 		{% if subject %}
 			<h1>{{subject.name}}</h1>
 
+    		<style>
+    	    li {
+            vertical-align: middle;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            color: black;
+            }
+    	    </style>
+
             {% if links %}
 				<ul>
 					{% for link in links %}
@@ -19,17 +30,16 @@
 			{% else %}
 				<strong>No links currently in subject.</strong>
 			{% endif %}
-
+            <ul>
             {% if user.is_authenticated %}
-                <br><a href="{% url 'submit_page' subject.slug %}">Submit Resource</a></br>
+                <li><a href="{% url 'submit_page' subject.slug %}">Submit Resource</a></li>
             {% endif %}
 
-            <br>
-            <a href="{% url 'show_subject' subject.slug %}">{{ subject.name }}</a>
+            <li><a href="{% url 'show_subject' subject.slug %}">{{ subject.name }}</a></li>
+            <li><a href="{% url 'subjectindex' %}">Return to Subject Index</a></li>
+            </ul>
             </br>
-            <br>
-            <a href="{% url 'subjectindex' %}">Return to Subject Index</a>
-            </br>
+
 
 		{% else %}
 			The specified subject does not exist!

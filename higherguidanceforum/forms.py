@@ -10,7 +10,7 @@ class QuestionPostForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = ('title','text',)
+        fields = ('title', 'text',)
 
 
 class LinkForm(forms.ModelForm):

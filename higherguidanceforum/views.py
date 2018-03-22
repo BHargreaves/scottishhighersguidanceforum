@@ -106,7 +106,6 @@ def show_forum(request, subject_name_slug):
         context_dict['question'] = questions
         context_dict['subject'] = subject
 
-
     except Subject.DoesNotExist:
         context_dict['subject'] = None
         context_dict['questions'] = None
@@ -125,11 +124,11 @@ def submit_question(request, subject_name_slug):
     if request.method == "POST":
         form = QuestionPostForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.category=subject
-            post.save()
+            question = form.save(commit=False)
+            question.category=subject
+            question.author = request.user
+            question.published_date = timezone.now()
+            question.save()
             return show_forum(request, subject_name_slug)
     else:
         form = QuestionPostForm()

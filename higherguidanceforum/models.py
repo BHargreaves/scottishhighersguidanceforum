@@ -41,11 +41,7 @@ class Question(models.Model):
     category = models.ForeignKey(Subject)
     slug = models.SlugField(unique=True)
     title = models.CharField(max_length=128)
-
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super(Question, self).save(*args, **kwargs)
+    text = models.CharField(max_length=1024)
 
     class Meta:
         verbose_name_plural = 'Questions'
@@ -60,10 +56,6 @@ class Answer(models.Model):
     slug = models.SlugField(unique=True)
     title = models.CharField(max_length=128)
     text = models.CharField(max_length=1999)
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Answer, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Answers'

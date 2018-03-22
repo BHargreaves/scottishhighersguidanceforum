@@ -21,17 +21,14 @@
 		    	<strong>No questions currently in subject.</strong>
 		    {% endif %}
 
+            <ul>
             {% if user.is_authenticated %}
-                <br> <a href="{% url 'submit_question' subject.slug %}">Submit Question</a></br>
+                <li><a href="{% url 'submit_question' subject.slug %}">Submit Question</a></li>
             {% endif %}
 
-            <br>
-            <a href="{% url 'show_subject' subject.slug %}">{{ subject.name }}</a>
-            </br>
-            <br>
-            <a href="{% url 'subjectindex' %}">Return to Subject Index</a>
-            </br>
-
+            <li><a href="{% url 'show_subject' subject.slug %}">{{ subject.name }}</a></li>
+            <li><a href="{% url 'subjectindex' %}">Return to Subject Index</a></li>
+            </ul>
 		{% else %}
 			The specified subject does not exist!
 		{% endif %}
