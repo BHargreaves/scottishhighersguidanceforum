@@ -39,13 +39,11 @@
             </div>
 
         {% else %}
-            <li><a href="http://scottishhighersguidanceforum.pythonanywhere.com/scottishhighersguidanceforum/subjectindex/">Please browse the subject index</li></p>
-            <br />
+            <p><a href="http://scottishhighersguidanceforum.pythonanywhere.com/scottishhighersguidanceforum/subjectindex/">Please browse the subject index</a></p>
         {% endif %}
 		<strong>{{ boldmessage }}</strong><br />
 	</div>
 
-    <br/>
      <h2>Most Common Subjects<br /></h2>
      <div>
         {% if subjects %}
@@ -53,7 +51,6 @@
             {% for subject in subjects %}
                 <li>
                     <a href="{% url 'show_subject' subject.slug %}">{{ subject.name }}</a>
-                    <br />
                     <!-- New line -->
                 </li>
             {% endfor %}

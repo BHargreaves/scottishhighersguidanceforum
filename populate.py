@@ -141,9 +141,11 @@ def populate():
     psych_links = [{"title":"SQA Higher Psychology Resources", "url":"https://www.sqa.org.uk/sqa/47902.html", "views":0},
                     {"title":"SQA Higher Psychology Specification", "url":"https://www.sqa.org.uk/files/nq/CfE_CourseSpecification_Higher_HealthandWellbeing_Psychology.pdf", "views":0}]
 
-    rmps_links = [{"title":"SQA Higher Religious, Moral & Philosophical Studies Resources","url":"https://www.sqa.org.uk/sqa/47911.html", "views":0}]
+    rmps_links = [{"title":"SQA Higher Religious, Moral & Philosophical Studies Resources","url":"https://www.sqa.org.uk/sqa/47911.html", "views":0},
+                {"title":"SQA Higher Religious, Moral & Philosophical Studies Specification","url":"https://www.sqa.org.uk/files/nq/CfE_CourseSpecification_Higher_RMPS_ReligiousMoralandPhilosophicalStudies.pdf", "views":0}]
 
-    sociology_links = [{"title":"SQA Higher Sociology Resources", "url":"https://www.sqa.org.uk/sqa/47903.html", "views":0}]
+    sociology_links = [{"title":"SQA Higher Sociology Resources", "url":"https://www.sqa.org.uk/sqa/47903.html", "views":0},
+                        {"title":"SQA Higher Sociology Specification", "url":"https://www.sqa.org.uk/files/nq/CfE_CourseSpecification_Higher_HealthandWellbeing_Sociology.pdf", "views":0}]
 
     spanish_links = [ {"title": "SQA Higher Spanish Resources", "url":"https://www.sqa.org.uk/sqa/47909.html", "views":0},
                     {"title": "SQA Higher Spanish Specification", "url":"https://www.sqa.org.uk/files_ccc/CfE_CourseSpecification_Higher_Languages_ModernLanguages.pdf", "views":0}]
