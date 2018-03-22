@@ -102,8 +102,10 @@ def show_forum(request, subject_name_slug):
     try:
         subject = Subject.objects.get(slug=subject_name_slug)
         questions = Question.objects.filter(category=subject)
-        context_dict['questions'] = questions
+
+        context_dict['question'] = questions
         context_dict['subject'] = subject
+
 
     except Subject.DoesNotExist:
         context_dict['subject'] = None
@@ -128,12 +130,12 @@ def submit_question(request):
     return render(request, 'higherguidanceforum/submitquestion.html', form=form)
 
 
-def show_question(request, question_name):
+def show_question(request, question_slug_name):
 
     context_dict ={}
 
     try:
-        question = Question.objects.get(slug=question_name)
+        question = Question.objects.get(slug=question_slug_name)
         answers = Answer.objects.filter(category=question)
         context_dict['answers'] = answers
         context_dict['question'] = question

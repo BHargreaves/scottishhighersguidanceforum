@@ -11,14 +11,14 @@
 
 			<h1>{{subject.name}}</h1>
 
-            {% if questions %}
+            {% if questions != None %}
 				<ul>
 					{% for question in questions %}
-						<li><a href="{{ question.url }}">{{ question.title }}</a></li>
+						<li><a href="{% url 'show_question' question.slug }">{{ question.title }}</a></li>
 					{% endfor %}
 				</ul>
 		    {% else %}
-		    	<strong>No questions currently in category.</strong>
+		    	<strong>No questions currently in subject.</strong>
 		    {% endif %}
 
             {% if user.is_authenticated %}

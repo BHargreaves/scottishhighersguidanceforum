@@ -41,7 +41,7 @@ class Question(models.Model):
     category = models.ForeignKey(Subject)
     slug = models.SlugField(unique=True)
     title = models.CharField(max_length=128)
-    text = models.CharField(max_length=1999)
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -53,11 +53,13 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
+
 class Answer(models.Model):
 
     category = models.ForeignKey(Question)
     slug = models.SlugField(unique=True)
     title = models.CharField(max_length=128)
+    text = models.CharField(max_length=1999)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
