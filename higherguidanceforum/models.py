@@ -39,9 +39,13 @@ class Link(models.Model):
 class Question(models.Model):
 
     category = models.ForeignKey(Subject)
-    slug = models.SlugField(unique=True)
     title = models.CharField(max_length=128)
     text = models.CharField(max_length=1024)
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Question, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'Questions'

@@ -4,9 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from higherguidanceforum.models import Subject, Link, UserProfile, Question, Answer, Student, Teacher
-from higherguidanceforum.forms import LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm
-from .forms import QuestionPostForm
-from django.shortcuts import redirect
+from higherguidanceforum.forms import LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm, QuestionPostForm
 
 # Create your views here.
 
@@ -120,12 +118,13 @@ def submit_question(request, subject_name_slug):
     except Subject.DoesNotExist:
         subject = None
 
+
     form = QuestionPostForm()
     if request.method == "POST":
         form = QuestionPostForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
-            question.category=subject
+            question.category = subject
             question.author = request.user
             question.published_date = timezone.now()
             question.save()
@@ -239,7 +238,7 @@ def user_login(request):
                 return HttpResponse("Your Scottish Higher Guidance Forum is disabled.")
         else:
             print("Invalid login details: {0}, {1}".format(username, password) )
-            return HttpResponse("Invalid login details supplied.")
+            return render(request, 'higherguidanceforum/invalidlogin.html',{})
     else:
         return render(request, 'higherguidanceforum/login.html', {})
 
