@@ -44,7 +44,7 @@ class Question(models.Model):
 
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.title)
         super(Question, self).save(*args, **kwargs)
 
     class Meta:
@@ -76,6 +76,7 @@ class Answer(models.Model):
 class UserProfile(models.Model):
     #Links UserProfile to a user model instance
     user = models.OneToOneField(User)
+    usubjects = models.ManyToManyField(Subject, related_name='usubjects')
 
     is_student = models.BooleanField(default=False)
     is_teacher = models.BooleanField(default=False)
@@ -94,7 +95,6 @@ class UserProfile(models.Model):
 class Student(models.Model):
 
     student = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
-    subjects = models.ManyToManyField(Subject, related_name='USubjects')
 
     def __str__(self):
         return self.user.username
@@ -103,8 +103,6 @@ class Student(models.Model):
 class Teacher(models.Model):
 
     teacher = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
-
-    #subjects = models.ManyToManyField(Subject, related_name='TSubjects')
 
     def __str__(self):
         return self.user.username

@@ -10,8 +10,13 @@
 	<h1>Welcome</h1>
 
 	<style>
-	    div{
-        font-family:verdana;
+	    li {
+        vertical-align: middle;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        color: black;
         }
 	</style>
 
@@ -20,8 +25,6 @@
             {{ user.username }}, here are your subjects
 
             <div>
-                subjects = {{ user.subjects }}
-
                 {% if usubjects %}
                     {% for usubject in usubjects %}
                         <li>
@@ -36,11 +39,13 @@
             </div>
 
         {% else %}
-            Please browse the subject index
+            <li><a href="http://scottishhighersguidanceforum.pythonanywhere.com/scottishhighersguidanceforum/subjectindex/">Please browse the subject index</li></p>
+            <br />
         {% endif %}
 		<strong>{{ boldmessage }}</strong><br />
 	</div>
 
+    <br/>
      <h2>Most Common Subjects<br /></h2>
      <div>
         {% if subjects %}
@@ -48,6 +53,7 @@
             {% for subject in subjects %}
                 <li>
                     <a href="{% url 'show_subject' subject.slug %}">{{ subject.name }}</a>
+                    <br />
                     <!-- New line -->
                 </li>
             {% endfor %}

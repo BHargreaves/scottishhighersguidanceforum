@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from higherguidanceforum.models import Subject, Link, UserProfile, Question, Answer, Student, Teacher
-from higherguidanceforum.forms import SubjectForm, LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm
+from higherguidanceforum.forms import LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm
 from .forms import QuestionPostForm
 from django.shortcuts import redirect
 
@@ -83,16 +83,16 @@ def submit_page(request, subject_name_slug):
         if form.is_valid():
             if subject:
                 link = form.save(commit=False)
-                link.subject = subject
+                link.category = subject
                 link.views = 0
                 link.save()
-                return show_subject(request, subject_name_slug)
+                return show_resources(request, subject_name_slug)
             else:
                 print(form.errors)
 
     context_dict = {'form': form, 'subject': subject}
 
-    return render(request, 'higherguidanceforum/submitlink.html', context=context_dict)
+    return render(request, 'higherguidanceforum/submitlink.html', context_dict)
 
 
 def show_forum(request, subject_name_slug):
@@ -114,20 +114,29 @@ def show_forum(request, subject_name_slug):
     return render(request, 'higherguidanceforum/forum.html', context=context_dict)
 
 
-def submit_question(request):
+def submit_question(request, subject_name_slug):
 
+    try:
+        subject = Subject.objects.get(slug=subject_name_slug)
+    except Subject.DoesNotExist:
+        subject = None
+
+    form = QuestionPostForm()
     if request.method == "POST":
         form = QuestionPostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.published_date = timezone.now()
+            post.category=subject
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return show_forum(request, subject_name_slug)
     else:
         form = QuestionPostForm()
 
-    return render(request, 'higherguidanceforum/submitquestion.html', form=form)
+    context_dict = {'form': form, 'subject': subject}
+
+    return render(request, 'higherguidanceforum/submitquestion.html', context_dict)
 
 
 def show_question(request, question_slug_name):
@@ -166,12 +175,6 @@ def registerstudent(request):
             user = user_form.save()
             user.set_password(user.password)
             user.save()
-            profile = profile_form.save()
-            profile.user = user
-            if 'picture' in request.FILES:
-                profile_form.picture = request.FILES['picture']
-
-            profile.save()
             registered = True
 
         else:
@@ -284,10 +287,3 @@ def visitor_cookie_handler(request, response):
 
 def restricted(request):
     return HttpResponse("Since you're logged in, you can see this text!")
-
-
-
-
-
-
-

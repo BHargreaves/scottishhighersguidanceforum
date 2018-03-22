@@ -6,23 +6,12 @@ from higherguidanceforum.models import Link, Subject, UserProfile, Student, Teac
 class QuestionPostForm(forms.ModelForm):
 
     title = forms.CharField(max_length=128,help_text="Please enter the title")
-    text = forms.CharField(max_length=1024,help_text="Please enter the text")
+    text = forms.CharField(max_length=1024,help_text="Please enter your question")
 
     class Meta:
         model = Question
         fields = ('title','text',)
 
-class SubjectForm(forms.ModelForm):
-
-    name = forms.CharField(max_length=128,help_text="Please enter the subject name")
-    views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-    likes = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
-    slug = forms.CharField(widget=forms.HiddenInput(), required=False)
-
-    class Meta:
-        # Provide an association between the ModelForm and a model
-        model = Subject
-        fields = ('name',)
 
 class LinkForm(forms.ModelForm):
 
@@ -47,37 +36,38 @@ class LinkForm(forms.ModelForm):
         model = Link
         fields = ('title',)
 
-        excluse = ('category')
-
-
 
 class UserProfileForm(forms.ModelForm):
+
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password')
+        fields = ('username', 'email', 'password',)
 
 
 class StudentSignUpForm(forms.ModelForm):
+
     subjects = forms.ModelMultipleChoiceField(
-        queryset=Subject.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=True
-    )
+            queryset=Subject.objects.all(),
+            widget=forms.CheckboxSelectMultiple,
+            required=True
+        )
 
     class Meta:
         model = UserProfile
         fields = ()
 
-    def save(self):
+    def save(self, subjects):
+
         user = super().save(commit=False)
         user.is_student = True
-        #user.save()
+        user.save()
         student = Student.objects.create
-        student.subjects.add(subjects)
+        student.usubjects.add(subjects)
         student.save()
         return user
+
 
 class TeacherSignUpForm(forms.ModelForm):
 
@@ -88,5 +78,7 @@ class TeacherSignUpForm(forms.ModelForm):
     def save(self):
         user = super().save(commit=False)
         user.is_teacher = True
+        user.save()
+        teacher = Teacher.objects.create
         teacher.save()
         return user
