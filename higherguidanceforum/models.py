@@ -92,7 +92,7 @@ class UserProfile(models.Model):
 class Student(models.Model):
 
     student = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
-    subjects = models.ManyToManyField(Subject, related_name='Subjects')
+    subjects = models.ManyToManyField(Subject, related_name='USubjects')
 
     def __str__(self):
         return self.user.username
@@ -102,7 +102,7 @@ class Teacher(models.Model):
 
     teacher = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
 
-    #subjects = models.ManyToManyField(Subject, related_name='teachers')
+    #subjects = models.ManyToManyField(Subject, related_name='TSubjects')
 
     def __str__(self):
         return self.user.username

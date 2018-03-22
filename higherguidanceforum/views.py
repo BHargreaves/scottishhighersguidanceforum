@@ -50,7 +50,7 @@ def show_subject(request, subject_name_slug):
     subject = Subject.objects.get(slug=subject_name_slug)
     context_dict['subject'] = subject
 
-    return render(request, 'higherguidanceforum/subject.html')#, context=context_dict)
+    return render(request, 'higherguidanceforum/subject.html', context=context_dict)
 
 
 def show_resources(request, subject_name):

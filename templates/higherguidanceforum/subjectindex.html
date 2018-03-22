@@ -7,10 +7,7 @@
 
 {% block body_block %}
 
-
-	<h1>Scottish Higher Subjects</h1>
-
-	<style>
+    <style>
 	    body{
 	    background-color: powderblue;
 	    }
@@ -24,31 +21,25 @@
         }
         <img src="/media/chemistry.jpg" alt="UoG" width="400" height="120">
     </style>
-</head>
-<body>
 
+     <div class="container">
 
-<html>
-<head>
-
-	<div>
-        {% if subjects %}
-        <ul?>
-            {% for subject in subjects %}
-                <li>
-                    <a href="{% url 'show_subject' subject.slug %}">{{ subject.name }}</a>
-                    <!-- New line -->
-                </li>
-            {% endfor %}
-        </ul>
-        {% else %}
-            <strong>There are no subjects present.</strong>
-        {% endif %}
+        <div class="dropdown">
+            {% if subjects %}
+            <ul?>
+                {% for subject in subjects %}
+                    <li>
+                        <a class="dropdown-item" href="{% url 'show_subject' subject.slug %}">{{ subject.name }}</a>
+                        <!-- New line -->
+                    </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <strong>There are no subjects present.</strong>
+            {% endif %}
+        </div>
     </div>
 
-
-</body>
-</html>
 
 
 

@@ -12,7 +12,7 @@ urlpatterns = [
 
     #SUBJECTS
     #The subject index page, hopefully ranked by popularity
-    url(r'^subjectindex/', views.subject_index, name='subjectindex'),
+    url(r'^subjectindex/$', views.subject_index, name='subjectindex'),
 
     #The url for each individual subject
     url(r'^subjectindex/(?P<subject_name_slug>[\w\-]+)/$', views.show_subject, name='show_subject'),
