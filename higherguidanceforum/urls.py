@@ -19,7 +19,7 @@ urlpatterns = [
 
     #The resource page for a subject
     url(r'^subjectindex/(?P<subject_name_slug>[\w-]+)/resources/', views.show_resources, name='show_resources'),
-    url(r'^subjectindex/(?P<subject_name_slug>[\w\-]+)/resources/submit/$', views.submit_page, name='submit_page'),
+    url(r'^subjectindex/(?P<subject_name_slug>[\w\-]+)/resources/submit/', views.submit_page, name='submit_page'),
 
     #The forum page for a subject
     url(r'^subjectindex/(?P<subject_name_slug>[\w\-]+)/forum/', views.show_forum, name='show_forum'),

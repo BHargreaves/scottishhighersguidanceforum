@@ -20,7 +20,7 @@
 			{% endif %}
 
             {% if user.is_authenticated %}
-                <a href="{% url 'submit' subject.slug %}">Submit Resource</a>
+                <a href="{% url 'submit_page' subject.slug %}">Submit Resource</a>
             {% endif %}
 
 		{% else %}

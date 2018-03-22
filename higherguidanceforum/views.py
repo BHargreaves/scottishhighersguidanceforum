@@ -1,9 +1,12 @@
 from datetime import datetime
+from django.utils import timezone
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from higherguidanceforum.models import Subject, Link, UserProfile, Question, Answer, Student, Teacher
 from higherguidanceforum.forms import SubjectForm, LinkForm, UserProfileForm, StudentSignUpForm, TeacherSignUpForm
+from .forms import QuestionPostForm
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -18,9 +21,7 @@ def home(request):
     return render(request, 'higherguidanceforum/home.html', context=context_dict)
 
 def about(request):
-    #if request.session.test_cookie_worked():
-        #print("TEST COOKIE WORKED!")
-    #request.session.delete_test_cookie()
+
     context_dict = {'boldmessage': "Here is the about page"}
     return render(request, 'higherguidanceforum/about.html', context=context_dict)
 
@@ -32,7 +33,6 @@ def subject_index(request):
     request.session.set_test_cookie()
     subject_list = Subject.objects.order_by('name')
     context_dict = {'subjects': subject_list,}
-
 
     #context_dict['visits'] = request.session['visits']
 
@@ -50,7 +50,7 @@ def show_subject(request, subject_name_slug):
     subject = Subject.objects.get(slug=subject_name_slug)
     context_dict['subject'] = subject
 
-    return render(request, 'higherguidanceforum/subject.html', context=context_dict)
+    return render(request, 'higherguidanceforum/subject.html')#, context=context_dict)
 
 
 def show_resources(request, subject_name):
@@ -69,8 +69,30 @@ def show_resources(request, subject_name):
 
     return render(request, 'higherguidanceforum/resources.html', context=context_dict)
 
-def submit_page(request):
-    return render(request, 'higherguidanceforum/submitlink.html')
+
+def submit_page(request, subject_name_slug):
+
+    try:
+        subject = Subject.objects.get(slug=subject_name_slug)
+    except Subject.DoesNotExist:
+        subject = None
+
+    form = LinkForm()
+    if request.method == 'POST':
+        form = LinkForm(request.POST)
+        if form.is_valid():
+            if subject:
+                link = form.save(commit=False)
+                link.subject = subject
+                link.views = 0
+                link.save()
+                return show_subject(request, subject_name_slug)
+            else:
+                print(form.errors)
+
+    context_dict = {'form': form, 'subject': subject}
+
+    return render(request, 'higherguidanceforum/submitlink.html', context=context_dict)
 
 
 def show_forum(request, subject_name):
@@ -91,7 +113,19 @@ def show_forum(request, subject_name):
 
 
 def submit_question(request):
-    return render(request, 'higherguidanceforum/submitquestion.html')
+
+    if request.method == "POST":
+        form = QuestionPostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = QuestionPostForm()
+
+    return render(request, 'higherguidanceforum/submitquestion.html', form=form)
 
 
 def show_question(request, question_name):
@@ -110,8 +144,10 @@ def show_question(request, question_name):
 
     return render(request, 'higherguidanceforum/question.html', context=context_dict)
 
+
 def submit_answer(request):
     return render(request, 'higherguidanceforum/submitanswer.html')
+
 
 def register(request):
     return render(request, 'higherguidanceforum/register.html')
@@ -127,7 +163,7 @@ def registerstudent(request):
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
-            #user.save()
+            user.save()
             profile = profile_form.save()
             profile.user = user
             if 'picture' in request.FILES:
@@ -146,6 +182,7 @@ def registerstudent(request):
     return render(request,
         'higherguidanceforum/registerstudent.html',
         {'profile_form': profile_form,
+        'user_form' : user_form,
         'registered': registered})
 
 
@@ -159,7 +196,7 @@ def registerteacher(request):
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
-            #user.save()
+            user.save()
             profile = profile_form.save()
             profile.user = user
 
@@ -179,6 +216,7 @@ def registerteacher(request):
     return render(request,
         'higherguidanceforum/registerteacher.html',
         {'profile_form': profile_form,
+        'user_form' : user_form,
         'registered': registered})
 
 
@@ -200,9 +238,6 @@ def user_login(request):
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'higherguidanceforum/login.html', {})
-
-
-
 
 def my_account(request):
      return render(request, 'higherguidanceforum/myaccount.html')

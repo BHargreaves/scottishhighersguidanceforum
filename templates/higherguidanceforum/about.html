@@ -2,10 +2,6 @@
 {% load staticfiles %} <!-- New line -->
 
 
-
-<img src="img_uni_glasgow_logo.jpg.png" alt="UoG" style="width:700px;height:700px;">
-
-
 {% block title_block %}
 	About
 {% endblock %}
@@ -18,7 +14,9 @@
     }
 </style>
 
+<body>
 
+    <img src="/media/uni_glasgow_logo.jpg.png" alt="UoG" width="500" height="140">
 	<h1>About</h1>
 
 	<div>
@@ -33,5 +31,6 @@
         students and teachers to post questions, upload files according to their specific subject.</h4>
     </div>
 
+</body>
 
 {% endblock %}

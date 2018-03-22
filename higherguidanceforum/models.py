@@ -39,8 +39,9 @@ class Link(models.Model):
 class Question(models.Model):
 
     category = models.ForeignKey(Subject)
-    sluf = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True)
     title = models.CharField(max_length=128)
+    text = models.CharField(max_length=1999)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -55,7 +56,7 @@ class Question(models.Model):
 class Answer(models.Model):
 
     category = models.ForeignKey(Question)
-    sluf = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True)
     title = models.CharField(max_length=128)
 
     def save(self, *args, **kwargs):
@@ -91,8 +92,7 @@ class UserProfile(models.Model):
 class Student(models.Model):
 
     student = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
-
-    subjects = models.ManyToManyField(Subject, related_name='studying_students')
+    subjects = models.ManyToManyField(Subject, related_name='Subjects')
 
     def __str__(self):
         return self.user.username

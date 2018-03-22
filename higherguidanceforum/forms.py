@@ -1,6 +1,16 @@
 from django import forms
+from .models import Question
 from django.contrib.auth.models import User
 from higherguidanceforum.models import Link, Subject, UserProfile, Student, Teacher
+
+class QuestionPostForm(forms.ModelForm):
+
+    title = forms.CharField(max_length=128,help_text="Please enter the title")
+    text = forms.CharField(max_length=1024,help_text="Please enter the text")
+
+    class Meta:
+        model = Question
+        fields = ('title','text',)
 
 class SubjectForm(forms.ModelForm):
 
@@ -49,33 +59,34 @@ class UserProfileForm(forms.ModelForm):
         fields = ('username', 'email', 'password')
 
 
-class StudentSignUpForm(UserProfileForm):
+class StudentSignUpForm(forms.ModelForm):
     subjects = forms.ModelMultipleChoiceField(
         queryset=Subject.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
 
-    class Meta(UserProfileForm.Meta):
-        model = User
+    class Meta:
+        model = UserProfile
+        fields = ()
 
     def save(self):
         user = super().save(commit=False)
         user.is_student = True
         #user.save()
-        student = Student.objects.create(user=user)
-        student.subjects.add(*self.cleaned_data.get('subjects'))
+        student = Student.objects.create
+        student.subjects.add(subjects)
         student.save()
         return user
 
-class TeacherSignUpForm(UserProfileForm):
+class TeacherSignUpForm(forms.ModelForm):
 
-    class Meta(UserProfileForm.Meta):
-        model = User
+    class Meta:
+        model = UserProfile
+        fields = ()
 
-    def save(self, commit=True):
+    def save(self):
         user = super().save(commit=False)
         user.is_teacher = True
-        if commit:
-            user.save()
+        teacher.save()
         return user
