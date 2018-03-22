@@ -8,6 +8,7 @@
 {% block body_block %}
 
 		{% if subject %}
+
 			<h1>{{subject.name}}</h1>
 
             {% if questions %}
@@ -16,9 +17,9 @@
 						<li><a href="{{ question.url }}">{{ question.title }}</a></li>
 					{% endfor %}
 				</ul>
-			{% else %}
-				<strong>No questions currently in category.</strong>
-			{% endif %}
+		    {% else %}
+		    	<strong>No questions currently in category.</strong>
+		    {% endif %}
 
             {% if user.is_authenticated %}
                 <a href="{% url 'submit' subject.slug %}">Submit Question</a>

@@ -53,12 +53,12 @@ def show_subject(request, subject_name_slug):
     return render(request, 'higherguidanceforum/subject.html', context=context_dict)
 
 
-def show_resources(request, subject_name):
+def show_resources(request, subject_name_slug):
 
     context_dict ={}
 
     try:
-        subject = Subject.objects.get(slug=subject_name)
+        subject = Subject.objects.get(slug=subject_name_slug)
         links = Link.objects.filter(category=subject)
         context_dict['links'] = links
         context_dict['subject'] = subject
@@ -95,12 +95,12 @@ def submit_page(request, subject_name_slug):
     return render(request, 'higherguidanceforum/submitlink.html', context=context_dict)
 
 
-def show_forum(request, subject_name):
+def show_forum(request, subject_name_slug):
 
     context_dict ={}
 
     try:
-        subject = Subject.objects.get(slug=subject_name)
+        subject = Subject.objects.get(slug=subject_name_slug)
         questions = Question.objects.filter(category=subject)
         context_dict['questions'] = questions
         context_dict['subject'] = subject

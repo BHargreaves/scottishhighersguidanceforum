@@ -10,8 +10,8 @@
 		{% if subject %}
 			<h1>{{subject.name}}</h1>
 
-            <li><a href="{% url 'show_resources' subject.slug%}">Resources</a></li>
-			<li><a href="{% url 'show_forum' subject.slug%}">Subject Forum</a></li>
+            <li><a href="{% url 'show_resources' subject.slug %}">Resources</a></li>
+			<li><a href="{% url 'show_forum' subject.slug %}">Subject Forum</a></li>
 
 		{% else %}
 			The specified subject does not exist!
