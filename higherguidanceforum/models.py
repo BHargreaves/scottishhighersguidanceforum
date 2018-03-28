@@ -57,7 +57,6 @@ class Question(models.Model):
 class Answer(models.Model):
 
     category = models.ForeignKey(Question)
-    slug = models.SlugField(unique=True)
     title = models.CharField(max_length=128)
     text = models.CharField(max_length=1999)
 

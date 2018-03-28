@@ -34,7 +34,7 @@ class LinkForm(forms.ModelForm):
     class Meta:
         # Provide an association between the ModelForm and a model
         model = Link
-        fields = ('title',)
+        fields = ('title','url',)
 
 
 class UserProfileForm(forms.ModelForm):

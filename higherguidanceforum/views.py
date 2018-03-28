@@ -32,8 +32,6 @@ def subject_index(request):
     subject_list = Subject.objects.order_by('name')
     context_dict = {'subjects': subject_list,}
 
-    #context_dict['visits'] = request.session['visits']
-
     response = render(request, 'higherguidanceforum/subjectindex.html', context_dict)
 
     visitor_cookie_handler(request, response)
@@ -270,17 +268,19 @@ def get_server_side_cookie(request, cookie, default_val=None):
     return val
 
 def visitor_cookie_handler(request, response):
+
     visits = int(request.COOKIES.get('visits', '1'))
     last_visit_cookie = request.COOKIES.get('last_visit', str(datetime.now()))
     last_visit_time = datetime.strptime(last_visit_cookie[:-7],
                                         '%Y-%m-%d %H:%M:%S')
+    current_visit_time = datetime.now()
 
     if (datetime.now() - last_visit_time).days > 0:
         visits = visits + 1
-        response.set_cookie['last_visit'] = str(datetime.now())
-    else:
-        visits = 1
         response.set_cookie('last_visit', last_visit_cookie)
+    else:
+        response.set_cookie('last_visit', last_visit_cookie)
+
     response.set_cookie('visits', visits)
 
 def restricted(request):
